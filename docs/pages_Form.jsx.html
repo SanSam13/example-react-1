@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/Form.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/Form.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {useState} from 'react'
+import { useForm } from 'react-hook-form'
+import TimePicker from 'react-time-picker';
+import DatePicker, { registerLocale } from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import es from "date-fns/locale/es";
+registerLocale("es", es);
+
+/**
+ * Formulario para agregar un banner al home
+ * @returns form
+ */
+
+const Form = () => {
+
+    const {register, formState: { errors }, handleSubmit, reset} = useForm();
+    
+    //Declaración de variables de estado
+    const [startDate, setStartDate] = useState(new Date());
+
+    const [data, setData] = useState([]);
+
+    const [value, onChange] = useState(new Date())
+
+    const dateCurrent = new Date()
+    const timeCurrent = dateCurrent.getHours() + ':' + dateCurrent.getMinutes()
+    const [time, setTime] = useState(timeCurrent);
+
+    //Función que se encargara de validar los datos y enviar el formulario
+    const onSubmit = (info, e) => {
+        const options = {year: 'numeric', month: 'numeric', day: 'numeric'};
+        const dateFormat = startDate.toLocaleDateString('es-ES', options)
+        setData([
+            ...data,
+            {...info, dateEvent:dateFormat, timeEvent: time, imgDesktop: info.imgDesktop[0].name, imgTablet: info.imgTablet[0].name, imgMobile: info.imgMobile[0].name }
+        ])
+        console.log('Enviando datos...')
+    }
+    
+    return (
+        &lt;div className='event-form'>
+            &lt;div className="container">
+                &lt;h1>Agregar Banner&lt;/h1>
+                &lt;form onSubmit={handleSubmit(onSubmit)}>
+                    &lt;div className="form-group">
+                        &lt;label>Nombre del Evento&lt;/label>
+                        &lt;input type="text" placeholder="Nombre del Evento" {...register('nameEvent', { required: true })} />
+                        &lt;span className='error'>{errors.nameEvent?.type === 'required' &amp;&amp; "Nombre de Evento es requerido"}&lt;/span>
+                    &lt;/div>
+                    &lt;div className="form-group">
+                        &lt;label>Fecha del Evento&lt;/label>
+                        &lt;DatePicker
+                            selected={startDate}
+                            onChange={(date) => setStartDate(date)}
+                            minDate={new Date()}
+                            locale='es'
+                            dateFormat='dd-MM-yyyy'
+                            placeholderText="Fecha del Evento"
+                        />
+                    &lt;/div>
+                    &lt;div className="form-group">
+                        &lt;label>Hora del Evento&lt;/label>
+                        &lt;TimePicker
+                            clearIcon= ''
+                            onChange={e => setTime(e)}
+                            value={value}
+                        />
+                    &lt;/div>
+                    &lt;div className="form-group">
+                        &lt;label>Url de compra&lt;/label>
+                        &lt;input type="text" placeholder="Ej. http://www.demo.com" {...register("url", {required: 'Url de compra es requerida', pattern:{ value: /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi, message: "Url invalida"} })} />
+                        &lt;span className="error">{errors.url &amp;&amp; &lt;p>{errors.url.message}&lt;/p>}&lt;/span>
+                    &lt;/div>
+                    &lt;div className="form-group">
+                        &lt;label>Imagen Desktop &lt;small>(Dimensión: 2340 x 700)&lt;/small>&lt;/label>
+                        &lt;input type="file" {...register('imgDesktop', { required: true })}/>
+                        &lt;span className='error'>{errors.imgDesktop?.type === 'required' &amp;&amp; "La imagen Desktop es requerida"}&lt;/span>
+                    &lt;/div>
+                    &lt;div className="form-group">
+                        &lt;label>Imagen Tablet &lt;small>(Dimensión: 1440 x 1080)&lt;/small>&lt;/label>
+                        &lt;input type="file" {...register('imgTablet', { required: true })}/>
+                        &lt;span className='error'>{errors.imgTablet?.type === 'required' &amp;&amp; "La imagen Tablet es requerida"}&lt;/span>
+                    &lt;/div>
+                    &lt;div className="form-group"> 
+                        &lt;label>Imagen Mobile &lt;small>(Dimensión: 1920 x 1080)&lt;/small>&lt;/label>
+                        &lt;input type="file" {...register('imgMobile', { required: true })}/>
+                        &lt;span className='error'>{errors.imgMobile?.type === 'required' &amp;&amp; "La imagen Mobile es requerida"}&lt;/span>
+                    &lt;/div>
+                    &lt;button type="submit" className='btn'>Enviar&lt;/button>
+                &lt;/form>
+            &lt;/div>
+        &lt;/div>
+    )
+}
+
+export default Form
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Carousel">Carousel</a></li><li><a href="global.html#Form">Form</a></li><li><a href="global.html#MenuData">MenuData</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#UseWindowsize">UseWindowsize</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Oct 06 2021 23:16:47 GMT-0500 (hora de verano central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

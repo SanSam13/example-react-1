@@ -1,0 +1,46 @@
+.carousel-home{
+    .slide-item{
+        background: gray;
+        position: relative;
+        img{
+            width: 100%;
+            max-width: 100%;
+        }
+        .imgDesktop{
+            display: block;
+            @include mq(tablet, max){
+                display: none;
+            }
+            @include mq(mobile, max){
+                display: none;
+            }
+        }
+        .imgTablet{
+            display: none;
+            @include mq(tablet, max){
+                display: block;
+            }
+            @include mq(mobile, max){
+                display: none;
+            }
+        }
+        .imgMobile{
+            display: none;
+            @include mq(tablet, max){
+                display: none;
+            }
+            @include mq(mobile, max){
+                display: block;
+            }
+        }
+        .description-slide-item{
+            position: absolute;
+            background-color: rgba($color: $black, $alpha: 0.5);
+            color: $white;
+            padding: 20px 30px;
+            bottom: 0;
+            left: 0%;
+            width: 100%;
+        }
+    }
+}

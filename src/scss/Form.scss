@@ -1,0 +1,37 @@
+@import '_colors';
+
+.event-form{
+    h1{
+        text-align: center;
+        padding: 30px 0;
+    }
+    form{
+        width: 50%;
+        margin: 0 auto;
+        .form-group{
+            display: flex;
+            flex-direction: column;
+            margin: 0 0 20px 0;
+            label{
+                font-weight: bold;
+            }
+        }
+        .btn{
+            margin: 0 auto;
+            display: block;
+            width: 100%;
+            &:hover{
+                color: $primary;
+            }
+        }
+        .error{
+            display: block;
+            color: red;
+            font-size: 13px;
+            text-align: left;
+        }
+        @include mq(tablet, max){
+            width: 90%;
+        }
+    }
+}
